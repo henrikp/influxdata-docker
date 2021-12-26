@@ -22,6 +22,7 @@ jobs:
         image: henrikp/influxdata-docker
         tags: latest
         registry: docker.io
-        directory: ./telegraf/1.21/
+        directory: telegraf/1.21/
+        dockerfile: telegraf/1.21/Dockerfile
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASS }}
