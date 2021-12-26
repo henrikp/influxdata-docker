@@ -14,5 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build ./telegraf/1.21 --tag henrikdocker/telegraf-smartmontools:$(date +%s)
+      name: Check out code
+      
+    - uses: mr-smithers-excellent/docker-build-push@v5
+      name: Build & push Docker image
+      with:
+        image: henrikp/influxdata-docker
+        tags: latest
+        registry: docker.io
+        dockerfile: telegraf/1.21/Dockerfile
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
