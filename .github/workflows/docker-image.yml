@@ -20,7 +20,7 @@ jobs:
       name: Build & push Docker image
       with:
         image: henrikp/influxdata-docker
-        tags: henrikdocker/telegram-smartmontools:latest,henrikdocker/telegram-smartmontools:1.21
+        tags: latest
         registry: docker.io
         directory: telegraf/1.21/
         dockerfile: telegraf/1.21/Dockerfile
