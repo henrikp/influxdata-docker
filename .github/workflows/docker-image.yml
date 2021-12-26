@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build telegraf/1.21 --file Dockerfile --tag henrikdocker/telegraf-smartmontools:$(date +%s)
+      run: docker build ./telegraf/1.21 --tag henrikdocker/telegraf-smartmontools:$(date +%s)
