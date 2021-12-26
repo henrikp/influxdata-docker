@@ -20,7 +20,7 @@ jobs:
       name: Build & push Docker image
       with:
         image: henrikdocker/telegraf-smartmontools
-        tags: latest
+        tags: 1.21
         registry: docker.io
         directory: telegraf/1.21/
         dockerfile: telegraf/1.21/Dockerfile
