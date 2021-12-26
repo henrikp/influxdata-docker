@@ -10,7 +10,7 @@ if [ $EUID -ne 0 ]; then
 else
     # Allow telegraf to send ICMP packets and bind to privliged ports
     setcap cap_net_raw,cap_net_bind_service+ep /usr/bin/telegraf
-    setcap cap_net_raw /bin/ping
+    setcap cap_net_raw+ep /bin/ping
 
     exec setpriv --reuid telegraf --init-groups "$@"
 fi
