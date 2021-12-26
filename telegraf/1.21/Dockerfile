@@ -14,7 +14,7 @@ RUN set -ex && \
     done
 
 ENV TELEGRAF_VERSION 1.21.1
-RUN ARCH=wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}-1_arm64.deb.asc && \
+RUN ARCH= && wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}-1_arm64.deb.asc && \
     wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}-1_arm64.deb && \
     gpg --batch --verify telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb.asc telegraf_${TELEGRAF_VERSION}-1_arm64.deb && \
     dpkg -i telegraf_${TELEGRAF_VERSION}-1_arm64.deb && \
