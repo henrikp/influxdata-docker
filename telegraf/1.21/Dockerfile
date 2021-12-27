@@ -14,12 +14,19 @@ RUN set -ex && \
     done
 
 ENV TELEGRAF_VERSION 1.21.1
-RUN ARCH= && wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}-1_arm64.deb.asc && \
-    wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}-1_arm64.deb && \
-    gpg --batch --verify telegraf_${TELEGRAF_VERSION}-1_arm64.deb.asc telegraf_${TELEGRAF_VERSION}-1_arm64.deb && \
-    dpkg -i telegraf_${TELEGRAF_VERSION}-1_arm64.deb && \
-    rm -f telegraf_${TELEGRAF_VERSION}-1_arm64.deb*
-
+RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" && \
+    case "${dpkgArch##*-}" in \
+      amd64) ARCH='amd64';; \
+      arm64) ARCH='arm64';; \
+      armhf) ARCH='armhf';; \
+      armel) ARCH='armel';; \
+      *)     echo "Unsupported architecture: ${dpkgArch}"; exit 1;; \
+    esac && \
+    wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb.asc && \
+    wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb && \
+    gpg --batch --verify telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb.asc telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb && \
+    dpkg -i telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb && \
+    rm -f telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb*
 EXPOSE 8125/udp 8092/udp 8094
 
 COPY entrypoint.sh /entrypoint.sh
