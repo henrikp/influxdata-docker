@@ -12,5 +12,5 @@ else
     setcap cap_net_raw,cap_net_bind_service+ep /usr/bin/telegraf
     setcap cap_net_raw+ep /bin/ping
 
-    exec setpriv --reuid telegraf --init-groups "$@"
+    #exec setpriv --reuid telegraf --init-groups "$@"
 fi
