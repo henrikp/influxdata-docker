@@ -1,8 +1,9 @@
 FROM buildpack-deps:buster-curl
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends iputils-ping snmp procps lm-sensors libcap2-bin smartmontools && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends iputils-ping snmp sudo procps lm-sensors libcap2-bin smartmontools && \
     rm -rf /var/lib/apt/lists/*
+
 
 RUN set -ex && \
     mkdir ~/.gnupg; \
@@ -28,6 +29,9 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" && \
     dpkg -i telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb && \
     rm -f telegraf_${TELEGRAF_VERSION}-1_${ARCH}.deb*
 EXPOSE 8125/udp 8092/udp 8094
+
+RUN adduser telegraf sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD: /usr/bin/smartctl' >> /etc/sudoers
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
