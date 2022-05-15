@@ -31,5 +31,6 @@ EXPOSE 8125/udp 8092/udp 8094
 
 
 COPY entrypoint.sh /entrypoint.sh
+HEALTHCHECK CMD curl -s --fail http://localhost:8080/ || exit 1
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["telegraf"]
