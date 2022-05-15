@@ -1,4 +1,4 @@
-FROM buildpack-deps:buster-curl
+FROM buildpack-deps:bullseye-curl
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends iputils-ping snmp procps lm-sensors libcap2-bin && \
@@ -13,7 +13,7 @@ RUN set -ex && \
         gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "$key" ; \
     done
 
-ENV TELEGRAF_VERSION 1.19.3
+ENV TELEGRAF_VERSION 1.22.3
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" && \
     case "${dpkgArch##*-}" in \
       amd64) ARCH='amd64';; \

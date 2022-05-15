@@ -1,4 +1,4 @@
-FROM buildpack-deps:buster-curl
+FROM buildpack-deps:bullseye-curl
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends iputils-ping snmp procps lm-sensors libcap2-bin smartmontools && \
@@ -13,7 +13,7 @@ RUN set -ex && \
         gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "$key" ; \
     done
 
-ENV TELEGRAF_VERSION 1.21.1
+ENV TELEGRAF_VERSION 1.21.4
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" && \
     case "${dpkgArch##*-}" in \
       amd64) ARCH='amd64';; \
@@ -31,5 +31,6 @@ EXPOSE 8125/udp 8092/udp 8094
 
 
 COPY entrypoint.sh /entrypoint.sh
+HEALTHCHECK CMD curl -s --fail http://localhost:8080/ || exit 1
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["telegraf"]
